@@ -1,0 +1,24 @@
+{
+  "name": "ola-partner-showroom",
+  "version": "1.0.0",
+  "description": "OLA Electric Showroom and Scooty Servicing Web Application",
+  "main": "backend/src/server.js",
+  "scripts": {
+    "install:all": "npm --prefix backend install && npm --prefix frontend install",
+    "seed": "node backend/src/seed.js",
+    "dev:backend": "node backend/src/server.js",
+    "dev:frontend": "npm --prefix frontend run dev",
+    "build:frontend": "npm --prefix frontend run build"
+  },
+  "keywords": [
+    "ola",
+    "electric-scooter",
+    "showroom",
+    "service-booking",
+    "admin-portal",
+    "nextjs",
+    "express"
+  ],
+  "author": "Amit Bishnoi",
+  "license": "MIT"
+}
