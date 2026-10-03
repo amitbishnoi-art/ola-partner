@@ -2,7 +2,7 @@
 import { useState, useEffect } from 'react';
 import { useRouter } from 'next/navigation';
 import Link from 'next/link';
-import api from '../lib/api';
+import api, { API_BASE } from '../lib/api';
 
 /* ─── Helper: format ₹ price ─── */
 function formatPrice(n) {
@@ -393,7 +393,7 @@ export default function AdminPage() {
   // ═══════════════════════════════════════════════════════════════
   const downloadCSV = (type) => {
     const token = localStorage.getItem('token');
-    const url = `http://localhost:4000/api/admin/reports/export/${type}`;
+    const url = `${API_BASE}/admin/reports/export/${type}`;
     // Fetch with auth header and trigger browser download
     fetch(url, { headers: { Authorization: `Bearer ${token}` } })
       .then(res => res.blob())

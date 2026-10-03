@@ -9,7 +9,7 @@ function verifyAdmin(req, res, next) {
 
   const token = authHeader.split(' ')[1];
   try {
-    const payload = jwt.verify(token, process.env.JWT_SECRET);
+    const payload = jwt.verify(token, process.env.JWT_SECRET || 'ola-partner-showroom-jwt-secret-key-2026');
     if (payload.role !== 'admin' && payload.role !== 'superadmin') {
       return res.status(403).json({ message: 'Admin access required' });
     }
@@ -28,7 +28,7 @@ function verifyCustomer(req, res, next) {
 
   const token = authHeader.split(' ')[1];
   try {
-    const payload = jwt.verify(token, process.env.JWT_SECRET);
+    const payload = jwt.verify(token, process.env.JWT_SECRET || 'ola-partner-showroom-jwt-secret-key-2026');
     if (payload.role !== 'customer') {
       return res.status(403).json({ message: 'Customer access required' });
     }

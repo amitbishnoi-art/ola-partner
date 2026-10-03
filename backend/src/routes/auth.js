@@ -25,7 +25,7 @@ router.post('/admin/login', (req, res) => {
 
   const token = jwt.sign(
     { id: user.id, email: user.email, name: user.name, role: user.role },
-    process.env.JWT_SECRET,
+    process.env.JWT_SECRET || 'ola-partner-showroom-jwt-secret-key-2026',
     { expiresIn: '24h' }
   );
 
@@ -87,7 +87,7 @@ router.post('/customer/verify-otp', (req, res) => {
 
   const token = jwt.sign(
     { id: customer.id, mobile: customer.mobile, name: customer.name, role: 'customer' },
-    process.env.JWT_SECRET,
+    process.env.JWT_SECRET || 'ola-partner-showroom-jwt-secret-key-2026',
     { expiresIn: '7d' }
   );
 
@@ -111,7 +111,7 @@ router.get('/me', (req, res) => {
 
   const token = authHeader.split(' ')[1];
   try {
-    const payload = jwt.verify(token, process.env.JWT_SECRET);
+    const payload = jwt.verify(token, process.env.JWT_SECRET || 'ola-partner-showroom-jwt-secret-key-2026');
     res.json(payload);
   } catch {
     res.status(401).json({ message: 'Invalid token' });

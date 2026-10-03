@@ -11,11 +11,21 @@
 const initSqlJs = require('sql.js');
 const fs = require('fs');
 const path = require('path');
+const os = require('os');
 
-const dbPath = path.join(__dirname, '..', '..', 'data', 'showroom.db');
+const isVercel = Boolean(process.env.VERCEL || process.env.NOW_REGION);
+const bundledDbPath = path.join(__dirname, '..', '..', 'data', 'showroom.db');
+const dbPath = isVercel
+  ? path.join(os.tmpdir(), 'showroom.db')
+  : bundledDbPath;
+
 const dataDir = path.dirname(dbPath);
-if (!fs.existsSync(dataDir)) {
-  fs.mkdirSync(dataDir, { recursive: true });
+try {
+  if (!fs.existsSync(dataDir)) {
+    fs.mkdirSync(dataDir, { recursive: true });
+  }
+} catch (e) {
+  console.warn('Could not create data directory:', e.message);
 }
 
 // Module-level database reference (set by initDB)
@@ -29,7 +39,7 @@ function save() {
     const buffer = Buffer.from(data);
     fs.writeFileSync(dbPath, buffer);
   } catch (e) {
-    console.error('DB save error:', e.message);
+    console.warn('DB save warning (non-fatal):', e.message);
   }
 }
 
@@ -122,6 +132,11 @@ const wrapper = {
     if (fs.existsSync(dbPath)) {
       const buffer = fs.readFileSync(dbPath);
       _db = new SQL.Database(buffer);
+    } else if (fs.existsSync(bundledDbPath)) {
+      const buffer = fs.readFileSync(bundledDbPath);
+      _db = new SQL.Database(buffer);
+      // Persist to the writable dbPath (e.g. in /tmp on Vercel)
+      save();
     } else {
       _db = new SQL.Database();
     }

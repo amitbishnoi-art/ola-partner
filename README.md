@@ -110,3 +110,26 @@ npm run dev        # Starts Next.js app on http://localhost:3000
   - **Email**: `admin@olashowroom.com`
   - **Password**: `admin123`
 - **Customer OTP Login**: [http://localhost:3000/login](http://localhost:3000/login) (Enter name & mobile, default dev OTP is displayed on screen)
+
+---
+
+## ⚡ Deploying to Vercel
+
+The application is pre-configured for 1-click deployment on **Vercel** via GitHub:
+
+### Option A: Deploy Full Stack on Vercel (Frontend + Serverless API)
+1. Go to [vercel.com](https://vercel.com) and click **"Add New..."** ➔ **"Project"**.
+2. Select your imported GitHub repository: `https://github.com/amitbishnoi-art/ola-partner.git`.
+3. In the project configuration:
+   - **Framework Preset**: Other / Auto-detected
+   - **Root Directory**: `./` (leave default)
+   - Click **Deploy**.
+4. Vercel will build using `vercel.json`, hosting both Next.js frontend pages and the Express Serverless API at `/api/*`.
+
+### Option B: Deploy Frontend with Separate Backend (Recommended for high traffic)
+1. In Vercel, click **Import Project** for `amitbishnoi-art/ola-partner`.
+2. Under **Root Directory**, click **Edit** and select `frontend`.
+3. Under **Environment Variables**, add:
+   - `NEXT_PUBLIC_API_URL`: Your live backend URL (e.g., `https://your-backend.onrender.com/api` or `https://your-app.vercel.app/api`).
+4. Click **Deploy**.
+
